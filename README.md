@@ -26,7 +26,7 @@ git clone git@github.com:Maximuz2004/infra_sp2.git
 ```
 cd api_yamdb/infra/
 ```
-3. Создайте в этой директории файл .env  и внесите в него информацию о переменных окружения:
+3. Создайте в этой директории файл .env и внесите в него информацию о переменных окружения:
 ```
 DB_ENGINE=django.db.backends.postgresql
 DB_NAME=*имя базы данных*
