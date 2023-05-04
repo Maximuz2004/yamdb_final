@@ -3,9 +3,8 @@ import os
 import sys
 
 from django.core.management.base import BaseCommand
-
-from reviews.models import (
-    Category, Comment, Genre, GenreTitle, Review, Title, User)
+from reviews.models import (Category, Comment, Genre, GenreTitle, Review,
+                            Title, User)
 
 FILE_NAMES_MODELS = {
     'category.csv': Category,

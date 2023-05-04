@@ -1,13 +1,9 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-
-from reviews.validators import (
-    validate_non_reserved,
-    validate_username_allowed_chars,
-    validate_max_year
-)
+from reviews.validators import (validate_max_year, validate_non_reserved,
+                                validate_username_allowed_chars)
 
 ROLES_CHOICES = (
     (settings.ROLE_USER, 'Пользователь'),

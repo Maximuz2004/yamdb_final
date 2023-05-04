@@ -1,10 +1,8 @@
-from django.urls import path, include
+from api.views import (CategoryViewSet, CommentViewSet, GenreViewSet,
+                       ReviewViewSet, SignupView, TitleViewSet,
+                       TokenObtainAPIView, UserMeAPIView, UserViewSet)
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-
-from api.views import (
-    SignupView, TokenObtainAPIView, UserViewSet, UserMeAPIView,
-    CategoryViewSet, GenreViewSet, TitleViewSet, CommentViewSet, ReviewViewSet
-)
 
 URL_COMMENTS = r'titles/(?P<title_id>\d+)/reviews/(?P<review_id>\d+)/comments'
 URL_REVIEW = r'titles/(?P<title_id>\d+)/reviews'

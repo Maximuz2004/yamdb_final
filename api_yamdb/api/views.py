@@ -1,5 +1,12 @@
 import random
 
+from api.filters import TitleFilterSet
+from api.permissions import AdminOnly, AdminOrReadOnly, AuthorOrStuffOrReadOnly
+from api.serializers import (CategorySerializer, CommentSerializer,
+                             GenreSerializer, GetTitleSerializer,
+                             PostTitleSerializer, ReviewSerializer,
+                             SignupSerializer, TokenObtainSerializer,
+                             UserSerializer)
 from django.conf import settings
 from django.core.mail import send_mail
 from django.db import IntegrityError
@@ -7,35 +14,17 @@ from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
-from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.mixins import (
-    CreateModelMixin,
-    DestroyModelMixin,
-    ListModelMixin
-)
-from rest_framework.permissions import (
-    AllowAny, IsAuthenticatedOrReadOnly, IsAuthenticated
-)
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
+                                   ListModelMixin)
+from rest_framework.permissions import (AllowAny, IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
 from rest_framework.response import Response
 from rest_framework.validators import ValidationError
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
-
-from api.filters import TitleFilterSet
-from api.permissions import AdminOrReadOnly, AdminOnly, AuthorOrStuffOrReadOnly
-from api.serializers import (
-    CategorySerializer,
-    GenreSerializer,
-    GetTitleSerializer,
-    PostTitleSerializer,
-    SignupSerializer,
-    TokenObtainSerializer,
-    UserSerializer,
-    ReviewSerializer,
-    CommentSerializer
-)
-from reviews.models import Category, Genre, Title, Review, User
+from reviews.models import Category, Genre, Review, Title, User
 
 ERROR_CONFIRMATION_CODE = 'Неверный код подтверждения, получите новый'
 ERROR_SIGNUP_USERNAME_MAIL_TAKEN = (

@@ -1,24 +1,12 @@
 from django.conf import settings
-from django.core.validators import (
-    MinValueValidator, MaxValueValidator
-)
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.shortcuts import get_object_or_404
-from rest_framework.serializers import (
-    CharField,
-    EmailField,
-    IntegerField,
-    ModelSerializer,
-    Serializer,
-    SlugRelatedField,
-    ValidationError
-)
-
+from rest_framework.serializers import (CharField, EmailField, IntegerField,
+                                        ModelSerializer, Serializer,
+                                        SlugRelatedField, ValidationError)
 from reviews.models import Category, Comment, Genre, Review, Title, User
-from reviews.validators import (
-    validate_username_allowed_chars,
-    validate_max_year,
-    validate_non_reserved
-)
+from reviews.validators import (validate_max_year, validate_non_reserved,
+                                validate_username_allowed_chars)
 
 REGEX_VALIDATION_MESSAGE = (
     'Введите правильное имя пользователя.'
