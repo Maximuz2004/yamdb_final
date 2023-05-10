@@ -1,4 +1,4 @@
-# YaMDB
+# CI и CD проекта YaMDB
 
 ![workflow status](https://github.com/maximuz2004/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
 [![Python](https://camo.githubusercontent.com/a00abd8cea4105fa1cad91f7235d11206b492f51afeb9b23a25d04e8f36935e3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f507974686f6e2d4646443433423f7374796c653d666f722d7468652d6261646765266c6f676f3d707974686f6e266c6f676f436f6c6f723d626c7565)](https://www.python.org/)  [![Django](https://camo.githubusercontent.com/dd7f390cf162d4b963b26215e6cd4373282ebe20caccfd4ef479798c2b590e38/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446a616e676f2d3039324532303f7374796c653d666f722d7468652d6261646765266c6f676f3d646a616e676f266c6f676f436f6c6f723d677265656e)](https://www.djangoproject.com/) 
@@ -18,15 +18,41 @@
 Основная задача проекта - предоставить удобный и простой способ для создания сторонних клиентов, в том числе мобильных приложений, с помощью которых пользователи смогут взаимодействовать со всеми функциями Yatube.
 Аутентификация пользователей реализована по стандарту **JWT**.
 ### Как запустить проект:
-1.  Клонировать репозиторий и перейти в него в командной строке:
+1.  Клонируйте репозиторий:
 ```
-git clone git@github.com:Maximuz2004/infra_sp2.git
+git@github.com:Maximuz2004/yamdb_final.git
 ```
-2.  Перейдите в директорию с файлом docker-compose:
+2.  Перейдите в директорию проекта. Создайте и активируйте виртуальное окрудение. Установите все зависимости:
 ```
-cd api_yamdb/infra/
+python -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+pip install -r api_yamdb/requirements.txt
+
 ```
-3. Создайте в этой директории файл .env и внесите в него информацию о переменных окружения:
+3. Запустите тесты. Проверьте, что они все прошли. 
+```
+pytest
+```
+
+4. Настройка удаленного сервера:
+
+    1. Войдите на свой удаленный сервер. 
+    2. Остановите службу nginx:
+   ```
+    sudo systemctl stop nginx
+   ```
+   3. Установите docker:
+   ```
+   sudo apt install docker.io
+   ```
+   4. Установите doker-compose согласно официальной [документации](https://docs.docker.com/compose/install/)
+
+5. Скопируйте файлы docker-compose.yaml и nginx/default.conf из вашего проекта на сервер в home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx/default.conf соответственно.
+
+    В файле ```nginx/default.conf ``` укажите ip-адрес вашего сервера
+
+6. Добавьте в Secrets GitHub Actions переменные окружения для работы базы данных и всего остального:
 ```
 DB_ENGINE=django.db.backends.postgresql
 DB_NAME=*имя базы данных*
@@ -35,26 +61,32 @@ POSTGRES_PASSWORD=*пароль для подключения к БД*
 DB_HOST=db # название сервиса (контейнера)
 DB_PORT=5432 # порт для подключения к БД
 SECRET_KEY=*секретный ключ Джанго*
+HOST - ip-адрес вашего сервера
+USER - пользователь удаленного сервера
+SSH_KEY - приватный ssh-ключ (публичный должен быть на сервере)
+DOCKER_USERNAME - ваш ник на https://hub.docker.com/
+DOCKER_PASSWORD - ваш пароль на DockerHub
+TELEGRAM_TO - Ваше id в Телеграмме
+TELEGRAM_TOKEN - токен вашего бота в Телеграмме
 ```
-4. Соберите контейнеры и запустите их:
+7. Запустите проект на сервере:
 ```
-docker-compose up -d --build
+sudo docker-compose up -d
 ```
-5. Выполните миграции, создайте суперпользователя и соберите статику:
+
+Создайте суперпользователя:
 ```
-docker-compose exec web python manage.py migrate
-docker-compose exec web python manage.py createsuperuser
-docker-compose exec web python manage.py collectstatic --no-input
+sudo docker-compose exec web python manage.py createsuperuser
 ```
-6. Загрузите в БД информацию из дампа:
+или:
+
 ```
-docker-compose exec web python manage.py loaddata fixtures.json
+sudo docker-compose exec web python manage.py loaddata static/fixtures.json
 ```
-7. Загрузите в БД данные из таблиц csv:
-```
-docker-compose exec web python manage.py load_data_db
-```
-Подробную документацию проекта вы можете посмотреть по [ссылке](http://localhost/redoc/).
+
+Подробную документацию проекта вы можете посмотреть по [ссылке](http://51.250.17.23/redoc/).
+
+
 ## Авторы.
 [Антон Киреев](https://github.com/AntiANT8406). Управление пользователями: система регистрации и аутентификации, права доступа, работа с токеном, система подтверждения e-mail.
 
