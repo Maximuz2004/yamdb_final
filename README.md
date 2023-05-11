@@ -85,9 +85,9 @@ sudo docker-compose exec web python manage.py createsuperuser
 sudo docker-compose exec web python manage.py loaddata static/fixtures.json
 ```
 
-Подробную документацию проекта вы можете посмотреть по [ссылке](http://51.250.17.23/redoc/).
+Подробную документацию проекта вы можете посмотреть по [ссылке](https://yayatube.ddns.net/redoc/).
 
-Проект доступен по адресу: http://51.250.17.23/api/v1/
+Проект доступен по адресу: https://yayatube.ddns.net/redoc/
 
 
 ## Авторы.
