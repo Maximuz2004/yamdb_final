@@ -1,4 +1,5 @@
 import os
+import socket
 import string
 from datetime import timedelta
 from os import getenv
@@ -13,9 +14,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', default='default')
 
-DEBUG = False
+if socket.gethostname() == 'localhost':
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS', default='*')]
 
 # Application definition
 

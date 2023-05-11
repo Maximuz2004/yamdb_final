@@ -54,6 +54,7 @@ pytest
 
 6. Добавьте в Secrets GitHub Actions переменные окружения для работы базы данных и всего остального:
 ```
+ALLOWED_HOSTS - список допустимых хостов, которые могут обращаться к приложению
 DB_ENGINE=django.db.backends.postgresql
 DB_NAME=*имя базы данных*
 POSTGRES_USER=*логин для подключения к базе данных*
